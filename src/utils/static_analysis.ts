@@ -30,8 +30,8 @@ def analyse():
         lines = source.split('\\n')
         report = audit(source)
         rlines = report.render().split('\\n')
-        # js.reportDisplay(to_js(rlines))
-        # print("func", js.reportDisplay)
+        js.reportDisplay(to_js(rlines))
+        print("func", js.reportDisplay)
 
         messages.append(['Success', 'Auditing step completed.'])
     except Exception as e:

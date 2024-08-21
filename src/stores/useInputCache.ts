@@ -1,14 +1,37 @@
 import { create } from "zustand";
 
-const useInputCache = create((set, get) => ({
+type Inputs = {
+  [name: string]: {
+    value: any;
+    type: string;
+  };
+};
+
+type Output = {
+  name: String;
+  value: any;
+};
+
+interface PorgramState {
+  inputs: Inputs;
+  output: Output[];
+  isInputChanged: boolean;
+  reInitialiseInputs: (updatedInputs: Inputs) => void;
+  updateValue: (inputName: string, value: any) => void;
+  toggleInputChanged: () => void;
+  updateOutput: (updatedOutput: Output[]) => void;
+}
+
+const useInputCache = create<PorgramState>()((set, get) => ({
   inputs: {},
-  isInputChanged: false,
   output: [],
+  isInputChanged: false,
   reInitialiseInputs: (updatedInputs) =>
     set((state) => ({
       ...state,
       inputs: updatedInputs,
     })),
+  // updateInputValue
   updateValue: (inputName, value) => {
     const inputElements = get().inputs;
     set((state) => ({
@@ -30,6 +53,7 @@ const useInputCache = create((set, get) => ({
   },
 
   updateOutput: (updatedOutput) => {
+    console.log("output of updatedOutput: ", updatedOutput);
     set((state) => ({
       ...state,
       output: updatedOutput,

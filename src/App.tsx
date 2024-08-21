@@ -1,29 +1,46 @@
 import { useEffect, useRef, useState } from "react";
-import { compileProgram } from "./jsnadac";
 
 import InputDisplay from "./components/InputDisplay";
-import useInputCache from "./stores/useInputCache";
 
 import { static_analysis } from "./utils/static_analysis";
 import {
   interpreterInputsRetrieve,
   interpreterInputsShow,
   interpreterOutputsShow,
+  reportDisplay,
 } from "./utils/helper";
 import OutputDisplay from "./components/OutputDisplay";
+import useInputCache from "./stores/useInputCache";
+import { InsType, outsType } from "./utils/Interpreter";
+import { loadPyodide, PyodideInterface } from "pyodide";
 
 const initPyodide = async () => {
-  const pyodide = await loadPyodide();
-  console.log("pyodide initiated");
+  const pyodide = await loadPyodide({
+    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.2/full/",
+  });
+  console.log("pyodide initiated", typeof pyodide);
   return pyodide;
 };
+
+declare global {
+  interface Window {
+    reportDisplay: (rlines: string[]) => void;
+    interpreterInputsRetrieve: () => {
+      [name: string]: string | number[];
+    };
+    interpreterInputsShow: (ins: InsType) => string;
+    interpreterOutputsShow: (outs: outsType) => {
+      name: string;
+      value: number;
+    }[];
+  }
+}
 
 function App() {
   const [code, setCode] = useState("");
   const [execute, setExecute] = useState(false);
-  const pyodide = useRef(null);
+  const pyodide = useRef<null | PyodideInterface>(null);
   const reInitialiseInputs = useInputCache((state) => state.reInitialiseInputs);
-  const inputs = useInputCache((state) => state.inputs);
   const [isInputChanged, toggleInputChanged, updateOutput] = useInputCache(
     (state) => [
       state.isInputChanged,
@@ -33,6 +50,7 @@ function App() {
   );
 
   useEffect(() => {
+    window.reportDisplay = reportDisplay;
     window.interpreterInputsRetrieve = interpreterInputsRetrieve;
     window.interpreterInputsShow = interpreterInputsShow;
     window.interpreterOutputsShow = interpreterOutputsShow;
@@ -83,13 +101,6 @@ function App() {
       }
     }
   }, [execute, isInputChanged]);
-
-  // useEffect(() => {
-  //   if (isInputChanged) {
-  //     console.log("Input has changed now...");
-  //     toggleInputChanged();
-  //   }
-  // }, [isInputChanged]);
 
   return (
     <>

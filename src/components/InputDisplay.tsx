@@ -1,10 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useInputCache from "../stores/useInputCache";
-
-const a = {
-  my_int1: [132, "PublicInteger"],
-  my_int2: [173, "SecretInteger"],
-};
 
 export default function InputDisplay() {
   const inputs = useInputCache((state) => state.inputs);
@@ -39,14 +34,22 @@ export default function InputDisplay() {
   );
 }
 
-function InputRow({ inputInfo }) {
+function InputRow({
+  inputInfo,
+}: {
+  inputInfo: {
+    value: any;
+    type: string;
+    name: string;
+  };
+}) {
   const [updateValue, toggleInputChanged] = useInputCache((state) => [
     state.updateValue,
     state.toggleInputChanged,
   ]);
 
-  const update = async (value) => {
-    await updateValue(inputInfo.name, parseInt(value));
+  const update = (value: any) => {
+    updateValue(inputInfo.name, eval(value));
     toggleInputChanged();
   };
 
@@ -55,10 +58,10 @@ function InputRow({ inputInfo }) {
       <td>{inputInfo.name}</td>
       <td>
         <input
-          type="number"
+          type="text"
           value={inputInfo.value}
           onChange={(e) => {
-            update(e.target.value || 0);
+            update(e.target.value);
           }}
         />
       </td>

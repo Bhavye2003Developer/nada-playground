@@ -1,9 +1,18 @@
 class Report {
+  cache: {
+    source: null;
+    analyses: null;
+    report: {
+      [value: string]: any;
+    };
+    rlines: string[];
+  };
   constructor() {
-    this.cache = { source: null, analyses: null, report: null, rlines: null };
+    this.cache = { source: null, analyses: null, report: {}, rlines: [] };
   }
 
-  display(rlines) {
+  display(rlines: string[]) {
+    console.log("types: ", rlines);
     // Use cached HTMl content if there is no updated data.
     if (rlines == null) {
       rlines = this.cache.rlines;
@@ -12,6 +21,7 @@ class Report {
       this.cache.report = {};
     }
 
+    console.log("Here's the report: ", this.cache.report);
     // Build and display the report HTML.
     let linesOutput = [];
     for (let i = 0; i < Math.min(rlines.length); i++) {
@@ -24,31 +34,6 @@ class Report {
         this.cache.report[row] = html;
       }
     }
-
-    console.log("linesOutput: ", linesOutput);
-    // document.getElementById("report").innerHTML =
-    //   '<div id="detail"></div>' + linesOutput.join("");
-
-    // // Set up event handlers for detail tooltips.
-    // const elements = document.getElementsByClassName("detail");
-    // for (let i = 0; i < elements.length; i++) {
-    //   const element = elements[i];
-    //   element.addEventListener("mouseover", function (event) {
-    //     const detail = document.getElementById("detail");
-    //     detail.style.display = "block";
-    //     detail.style.top = element.offsetTop + 24 + "px";
-    //     detail.style.left =
-    //       element.offsetLeft +
-    //       element.getBoundingClientRect().width -
-    //       16 +
-    //       "px";
-    //     detail.innerHTML = element.dataset.detail;
-    //   });
-    //   element.addEventListener("mouseout", function (event) {
-    //     const detail = document.getElementById("detail");
-    //     detail.style.display = "none";
-    //   });
-    // }
   }
 }
 

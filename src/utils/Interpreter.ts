@@ -1,30 +1,28 @@
 import useInputCache from "../stores/useInputCache";
 
+export type outsType = [string, number][];
+export type InsType = {
+  [name: string]: any;
+};
+
 export default class Interpreter {
+  cache: {
+    inputs: {
+      [name: string]: any;
+    };
+    signature: string;
+  };
+
   constructor() {
-    this.cache = { inputs: {}, signature: null };
+    this.cache = { inputs: {}, signature: "" };
   }
 
   inputsRetrieve() {
     const inputsFromScreen = useInputCache.getState().inputs;
 
-    const a = {
-      my_int2: {
-        value: 64,
-        type: "PublicInteger",
-      },
-      my_int3: {
-        value: 158,
-        type: "SecretInteger",
-      },
-    };
-
-    const b = {
-      my_int1: [236, "PublicInteger"],
-      my_int2: [125, "SecretInteger"],
-    };
-
-    const inputs = {};
+    const inputs: {
+      [name: string]: string | number[];
+    } = {};
     Object.keys(inputsFromScreen).forEach((inputName) => {
       const inputElement = inputsFromScreen[inputName];
       inputs[inputName] = [inputElement.value, inputElement.type];
@@ -33,7 +31,7 @@ export default class Interpreter {
     return inputs;
   }
 
-  getFormatedInputs(ins) {
+  getFormatedInputs(ins: InsType) {
     console.log("inside getFormattedInputs: ", this.cache.inputs, ins);
 
     const inputs = useInputCache.getState().inputs;
@@ -47,11 +45,11 @@ export default class Interpreter {
     }
 
     let inputsJSON = "";
-    let inputsJSONSchema = {
-      $schema: "https://json-schema.org/draft/2019-09/schema",
-      type: "object",
-      properties: {},
-    };
+    // let inputsJSONSchema = {
+    //   $schema: "https://json-schema.org/draft/2019-09/schema",
+    //   type: "object",
+    //   properties: {},
+    // };
     for (let i = 0; i < ins.length; i++) {
       const name = ins[i][0];
       if (!(name in this.cache.inputs)) {
@@ -68,25 +66,25 @@ export default class Interpreter {
           .replace(/\s\s/g, "") +
         (i == ins.length - 1 ? "" : ",") +
         "\n";
-      inputsJSONSchema["properties"][name] = {
-        type: "object",
-        properties: {
-          value: {
-            type: "integer",
-            minimum: 1,
-            maximumExclusive: "2147483647",
-          },
-          type: {
-            oneOf: [{ const: "PublicInteger" }, { const: "SecretInteger" }],
-          },
-        },
-      };
+      //   inputsJSONSchema["properties"][name] = {
+      //     type: "object",
+      //     properties: {
+      //       value: {
+      //         type: "integer",
+      //         minimum: 1,
+      //         maximumExclusive: "2147483647",
+      //       },
+      //       type: {
+      //         oneOf: [{ const: "PublicInteger" }, { const: "SecretInteger" }],
+      //       },
+      //     },
+      //   };
     }
     inputsJSON = JSON.parse("{\n" + inputsJSON + "}");
     return inputsJSON;
   }
 
-  inputsShow(ins) {
+  inputsShow(ins: InsType) {
     console.log("ins inside inputsShow: ", ins);
 
     const signature = ins.join(",");
@@ -102,10 +100,10 @@ export default class Interpreter {
     return this.getFormatedInputs(ins);
   }
 
-  outputsShow(outs) {
+  outputsShow(outs: outsType) {
     // table.innerHTML = "<tr><td>Output Name</td><td>Output Value</td></tr>";
     const output = [];
-    console.log("outs inside show: ", [...outs]);
+    console.log("outs inside show: ", outs);
     for (let i = 0; i < outs.length; i++) {
       const output_name = outs[i][0];
       const output_value = outs[i][1];
