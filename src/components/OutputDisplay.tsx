@@ -1,7 +1,7 @@
-import useInputCache from "../stores/useInputCache";
+import useProgramCache from "../stores/useProgramCache";
 
 export default () => {
-  const outputElements = useInputCache((state) => state.output);
+  const outputElements = useProgramCache((state) => state.output);
   return (
     <div>
       {outputElements.length > 0 ? (

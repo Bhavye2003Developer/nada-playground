@@ -1,4 +1,4 @@
-import useInputCache from "../stores/useInputCache";
+import useInputCache from "../stores/useProgramCache";
 
 export type outsType = [string, number][];
 export type InsType = {

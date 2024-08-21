@@ -7,12 +7,13 @@ type Inputs = {
   };
 };
 
-type Output = {
-  name: String;
+export type Output = {
+  name: string;
   value: any;
 };
 
 interface PorgramState {
+  code: string;
   inputs: Inputs;
   output: Output[];
   isInputChanged: boolean;
@@ -20,9 +21,11 @@ interface PorgramState {
   updateValue: (inputName: string, value: any) => void;
   toggleInputChanged: () => void;
   updateOutput: (updatedOutput: Output[]) => void;
+  setCode: (updatedCode: string) => void;
 }
 
-const useInputCache = create<PorgramState>()((set, get) => ({
+const useProgramCache = create<PorgramState>()((set, get) => ({
+  code: "",
   inputs: {},
   output: [],
   isInputChanged: false,
@@ -59,6 +62,13 @@ const useInputCache = create<PorgramState>()((set, get) => ({
       output: updatedOutput,
     }));
   },
+
+  setCode: (updatedCode: string) => {
+    set((state) => ({
+      ...state,
+      code: updatedCode,
+    }));
+  },
 }));
 
-export default useInputCache;
+export default useProgramCache;

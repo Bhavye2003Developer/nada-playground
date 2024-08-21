@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import useInputCache from "../stores/useInputCache";
+import useProgramCache from "../stores/useProgramCache";
 
 export default function InputDisplay() {
-  const inputs = useInputCache((state) => state.inputs);
+  const inputs = useProgramCache((state) => state.inputs);
 
   useEffect(() => {
     console.log("inputs changed: ", inputs);
@@ -43,7 +43,7 @@ function InputRow({
     name: string;
   };
 }) {
-  const [updateValue, toggleInputChanged] = useInputCache((state) => [
+  const [updateValue, toggleInputChanged] = useProgramCache((state) => [
     state.updateValue,
     state.toggleInputChanged,
   ]);

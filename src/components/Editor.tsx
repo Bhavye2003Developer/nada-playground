@@ -1,24 +1,33 @@
-import { useEffect, useState } from "react";
-import useInputCache from "../stores/useInputCache";
+import { useEffect } from "react";
 import { static_analysis } from "../utils/static_analysis";
 import useGlobals from "../stores/useGlobals";
+import useProgramCache from "../stores/useProgramCache";
 
 function Editor() {
-  const [code, setCode] = useState("");
-  const [execute, setExecute] = useState(false);
-  const reInitialiseInputs = useInputCache((state) => state.reInitialiseInputs);
-  const [isInputChanged, toggleInputChanged, updateOutput] = useInputCache(
-    (state) => [
-      state.isInputChanged,
-      state.toggleInputChanged,
-      state.updateOutput,
-    ]
-  );
-  const pyodide = useGlobals((state) => state.pyodide);
+  const [
+    isInputChanged,
+    toggleInputChanged,
+    updateOutput,
+    reInitialiseInputs,
+    code,
+    setCode,
+  ] = useProgramCache((state) => [
+    state.isInputChanged,
+    state.toggleInputChanged,
+    state.updateOutput,
+    state.reInitialiseInputs,
+    state.code,
+    state.setCode,
+  ]);
+  const [pyodide, isRunBtnClicked, resetRunBtnClicked] = useGlobals((state) => [
+    state.pyodide,
+    state.isRunBtnClicked,
+    state.resetRunBtnClicked,
+  ]);
 
   useEffect(() => {
     if (pyodide) {
-      if (execute) {
+      if (isRunBtnClicked) {
         const analysis = JSON.parse(pyodide.runPython(static_analysis(code)));
         console.log("complete analysis: ", analysis);
 
@@ -27,14 +36,14 @@ function Editor() {
 
         // const porgram_json = compileProgram(pyodide.current, code);
         // console.log("compiled: ", porgram_json);
-        setExecute(false);
+        resetRunBtnClicked();
       } else if (isInputChanged) {
         pyodide.runPython(static_analysis(code));
         console.log("Input has changed now...");
         toggleInputChanged();
       }
     }
-  }, [execute, isInputChanged]);
+  }, [isRunBtnClicked, isInputChanged]);
 
   return (
     <>
@@ -44,13 +53,6 @@ function Editor() {
         value={code}
         onChange={(e) => setCode(e.target.value)}
       />
-      <button
-        onClick={() => {
-          setExecute(true);
-        }}
-      >
-        Run
-      </button>
     </>
   );
 }
