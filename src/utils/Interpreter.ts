@@ -45,11 +45,6 @@ export default class Interpreter {
     }
 
     let inputsJSON = "";
-    // let inputsJSONSchema = {
-    //   $schema: "https://json-schema.org/draft/2019-09/schema",
-    //   type: "object",
-    //   properties: {},
-    // };
     for (let i = 0; i < ins.length; i++) {
       const name = ins[i][0];
       if (!(name in this.cache.inputs)) {
@@ -66,19 +61,6 @@ export default class Interpreter {
           .replace(/\s\s/g, "") +
         (i == ins.length - 1 ? "" : ",") +
         "\n";
-      //   inputsJSONSchema["properties"][name] = {
-      //     type: "object",
-      //     properties: {
-      //       value: {
-      //         type: "integer",
-      //         minimum: 1,
-      //         maximumExclusive: "2147483647",
-      //       },
-      //       type: {
-      //         oneOf: [{ const: "PublicInteger" }, { const: "SecretInteger" }],
-      //       },
-      //     },
-      //   };
     }
     inputsJSON = JSON.parse("{\n" + inputsJSON + "}");
     return inputsJSON;
@@ -101,7 +83,6 @@ export default class Interpreter {
   }
 
   outputsShow(outs: outsType) {
-    // table.innerHTML = "<tr><td>Output Name</td><td>Output Value</td></tr>";
     const output = [];
     console.log("outs inside show: ", outs);
     for (let i = 0; i < outs.length; i++) {
