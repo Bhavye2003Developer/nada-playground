@@ -22,6 +22,7 @@ interface PorgramState {
   toggleInputChanged: () => void;
   updateOutput: (updatedOutput: Output[]) => void;
   setCode: (updatedCode: string) => void;
+  resetProgram: () => void; 
 }
 
 const useProgramCache = create<PorgramState>()((set, get) => ({
@@ -67,6 +68,14 @@ const useProgramCache = create<PorgramState>()((set, get) => ({
     set((state) => ({
       ...state,
       code: updatedCode,
+    }));
+  },
+
+  resetProgram: () => {
+    set(() => ({
+      code: "",
+      inputs: {},
+      output: [],
     }));
   },
 }));
