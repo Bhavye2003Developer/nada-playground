@@ -1,6 +1,6 @@
 import React from "react";
 
-function DisplayPannel({
+function DisplayPanel({
   name,
   children,
 }: {
@@ -15,4 +15,4 @@ function DisplayPannel({
   );
 }
 
-export default DisplayPannel;
+export default DisplayPanel;

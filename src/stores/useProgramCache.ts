@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import examples from "../utils/CodeExamples";
 
 type Inputs = {
   [name: string]: {
@@ -22,11 +23,11 @@ interface PorgramState {
   toggleInputChanged: () => void;
   updateOutput: (updatedOutput: Output[]) => void;
   setCode: (updatedCode: string) => void;
-  resetProgram: () => void; 
+  resetProgram: () => void;
 }
 
 const useProgramCache = create<PorgramState>()((set, get) => ({
-  code: "",
+  code: examples[0].code,
   inputs: {},
   output: [],
   isInputChanged: false,

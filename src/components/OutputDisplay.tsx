@@ -1,10 +1,10 @@
 import useProgramCache from "../stores/useProgramCache";
-import DisplayPannel from "./DisplayPannel";
+import DisplayPanel from "./DisplayPanel";
 
 export default () => {
   const outputElements = useProgramCache((state) => state.output);
   return (
-    <DisplayPannel name="Output">
+    <DisplayPanel name="Output">
       <>
         {outputElements.length > 0 ? (
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -32,6 +32,6 @@ export default () => {
           "No output"
         )}
       </>
-    </DisplayPannel>
+    </DisplayPanel>
   );
 };

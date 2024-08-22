@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useProgramCache from "../stores/useProgramCache";
-import DisplayPannel from "./DisplayPannel";
+import DisplayPanel from "./DisplayPanel";
 
 export default function InputDisplay() {
   const inputs = useProgramCache((state) => state.inputs);
@@ -10,7 +10,7 @@ export default function InputDisplay() {
   }, [inputs]);
 
   return (
-    <DisplayPannel name="Input">
+    <DisplayPanel name="Input">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -31,7 +31,7 @@ export default function InputDisplay() {
           ))}
         </tbody>
       </table>
-    </DisplayPannel>
+    </DisplayPanel>
   );
 }
 
