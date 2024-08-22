@@ -11,11 +11,19 @@ function Platform() {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col w-full h-screen">
       <Header />
-      <Editor />
-      <InputDisplay />
-      <OutputDisplay />
+
+      <div className="flex h-screen mb-3 mx-2">
+        <div className="w-full border border-black mr-1">
+          <Editor />
+        </div>
+        <div className="w-full flex flex-col">
+          <InputDisplay />
+          <div className="mb-3"></div>
+          <OutputDisplay />
+        </div>
+      </div>
     </div>
   );
 }

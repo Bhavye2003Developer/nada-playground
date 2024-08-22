@@ -46,14 +46,13 @@ function Editor() {
   }, [isRunBtnClicked, isInputChanged]);
 
   return (
-    <>
+    <div className="h-full flex flex-1">
       <textarea
-        rows={20}
-        cols={40}
+        className="resize-none w-full"
         value={code}
         onChange={(e) => setCode(e.target.value)}
       />
-    </>
+    </div>
   );
 }
 
