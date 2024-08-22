@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { static_analysis } from "../utils/static_analysis";
 import useGlobals from "../stores/useGlobals";
 import useProgramCache from "../stores/useProgramCache";
+import { buildPermalink } from "../utils/helper";
 
 function Editor() {
   const [
@@ -50,7 +51,10 @@ function Editor() {
       <textarea
         className="resize-none w-full"
         value={code}
-        onChange={(e) => setCode(e.target.value)}
+        onChange={(e) => {
+          setCode(e.target.value);
+          buildPermalink();
+        }}
       />
     </div>
   );

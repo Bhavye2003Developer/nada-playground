@@ -1,5 +1,5 @@
+import DisplayPanel from "../components/DisplayPanel";
 import useProgramCache from "../stores/useProgramCache";
-import DisplayPanel from "./DisplayPanel";
 
 export default () => {
   const outputElements = useProgramCache((state) => state.output);

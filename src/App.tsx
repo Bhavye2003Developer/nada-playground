@@ -1,9 +1,13 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Platform from "./components/Platform";
 
 export default () => {
-  return (
-    <div>
-      <Platform />
-    </div>
-  );
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Platform />,
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 };
