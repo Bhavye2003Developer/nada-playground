@@ -31,7 +31,7 @@ def analyse():
     
     # Perform static analyses and render the report.
     try:
-        js.sendMessage(json.dumps(['Information', 'Auditing.']))
+        js.sendMessage(json.dumps(['Information', 'Auditing...']))
         lines = source.split('\\n')
         report = audit(source)
         rlines = report.render().split('\\n')
@@ -47,7 +47,7 @@ def analyse():
     # and then simulate the program on the inputs (either
     # randomly generated or user-supplied).
     try:
-        js.sendMessage(json.dumps(['Information', 'Executing.']))
+        js.sendMessage(json.dumps(['Information', 'Executing...']))
         ins = js.interpreterInputsRetrieve().to_py()
 
         print("The inputs of prog: ", ins)

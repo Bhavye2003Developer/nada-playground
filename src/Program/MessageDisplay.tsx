@@ -22,7 +22,7 @@ function MessageDisplay() {
 
   return (
     <DisplayPanel name="Program Info">
-      <span className="">
+      <span>
         {messages.length > 0
           ? messages.map((message, index) => {
               const [cls, txt] = message;
