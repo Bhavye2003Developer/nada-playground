@@ -55,7 +55,7 @@ async function init() {
   );
   await micropip.install("nada_audit-0.0.0-py3-none-any.whl");
 
-  // await micropip.install("nada_dsl-0.1.0-py3-none-any.whl");
+  await micropip.install("nada_dsl-0.1.0-py3-none-any.whl");
   initWindowProperties();
 
   useGlobals.getState().initialisePyodide(pyodide_obj);

@@ -1,4 +1,6 @@
 export const static_analysis = function (nada_code: String) {
+  const updated_nada_code =
+    `from nada_dsl import *\nfrom nada_audit import *\n` + nada_code;
   return `
 import js
 from js import document
@@ -17,13 +19,16 @@ def analyse():
     inputs = {}
     outputs = []
 
+    
     source = (
-        """${nada_code}"""
+        """${updated_nada_code}"""
         .replace('&' + 'amp;', '&')
         .replace('&' + 'lt;', '<')
         .replace('&' + 'gt;', '>')
-    )
-
+        )
+        
+    print("the code: ", source)
+    
     # Perform static analyses and render the report.
     try:
         messages.append(['Information', 'Auditing.'])
