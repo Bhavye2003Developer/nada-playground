@@ -8,9 +8,15 @@ import { useSearchParams } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { Flip, ToastContainer } from "react-toastify";
 import OutputDisplay from "../Program/OutputDisplay";
+import MessageDisplay from "../Program/MessageDisplay";
+import useGlobals from "../stores/useGlobals";
+import LoadingDisplay from "./LoadingDisplay";
 
 function Platform() {
   let [searchParams] = useSearchParams();
+  const isInitialisationCompleted = useGlobals(
+    (state) => state.isInitialisationCompleted
+  );
 
   useEffect(() => {
     init();
@@ -21,17 +27,26 @@ function Platform() {
 
   return (
     <div className="flex flex-col w-full h-screen">
-      <Header />
-      <div className="flex h-screen mb-3 mx-2">
-        <div className="w-full border border-black mr-1">
-          <Editor />
-        </div>
-        <div className="w-full flex flex-col">
-          <InputDisplay />
-          <div className="mb-3"></div>
-          <OutputDisplay />
+      <div
+        className={`h-screen flex flex-1 flex-col ${
+          isInitialisationCompleted ? null : "opacity-50 pointer-events-none"
+        }`}
+      >
+        <Header />
+        <div className="flex h-screen mb-3 mx-2">
+          <div className="w-full flex flex-col">
+            <Editor />
+            <div className="mb-3"></div>
+            <MessageDisplay />
+          </div>
+          <div className="w-full flex flex-col">
+            <InputDisplay />
+            <div className="mb-3"></div>
+            <OutputDisplay />
+          </div>
         </div>
       </div>
+      {isInitialisationCompleted ? null : <LoadingDisplay />}
       <ToastContainer
         position="top-center"
         autoClose={2000}

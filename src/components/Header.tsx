@@ -9,9 +9,10 @@ function Header() {
     state.runBtnClicked,
     state.isRunBtnClicked,
   ]);
-  const [resetProgram, setCode] = useProgramCache((state) => [
+  const [resetProgram, setCode, resetMessages] = useProgramCache((state) => [
     state.resetProgram,
     state.setCode,
+    state.resetMessages,
   ]);
 
   useEffect(() => {
@@ -22,7 +23,11 @@ function Header() {
   return (
     <div className="flex justify-end">
       <button
-        onClick={runBtnClicked}
+        onClick={() => {
+          console.log("inside run btn");
+          runBtnClicked();
+          resetMessages();
+        }}
         className="border border-black p-1 rounded-md hover:bg-green-400 my-4 mr-10"
       >
         {isRunBtnClicked ? "Executing..." : "RUN"}

@@ -31,23 +31,23 @@ def analyse():
     
     # Perform static analyses and render the report.
     try:
-        messages.append(['Information', 'Auditing.'])
+        js.sendMessage(json.dumps(['Information', 'Auditing.']))
         lines = source.split('\\n')
         report = audit(source)
         rlines = report.render().split('\\n')
         js.reportDisplay(to_js(rlines))
         print("func", js.reportDisplay)
 
-        messages.append(['Success', 'Auditing step completed.'])
+        js.sendMessage(json.dumps(['Success', 'Auditing step completed.']))
     except Exception as e:
         print("error: ", str(e))
-        messages.append(['Error', type(e).__name__ + ": " + str(e)])
+        js.sendMessage(json.dumps(['Error', type(e).__name__ + ": " + str(e)]))
 
     # Perform abstract interpretation to determine inputs
     # and then simulate the program on the inputs (either
     # randomly generated or user-supplied).
     try:
-        messages.append(['Information', 'Executing.'])
+        js.sendMessage(json.dumps(['Information', 'Executing.']))
         ins = js.interpreterInputsRetrieve().to_py()
 
         print("The inputs of prog: ", ins)
@@ -69,10 +69,10 @@ def analyse():
             ).to_py()
             
 
-        messages.append(['Success', 'Execution completed.'])
+        js.sendMessage(json.dumps(['Success', 'Execution completed.']))
     except Exception as e:
         print("The error has occured: ", str(e))
-        messages.append(['Error', type(e).__name__ + ": " + str(e)])
+        js.sendMessage(json.dumps(['Error', type(e).__name__ + ": " + str(e)]))
     
     result = json.dumps({'messages': messages, 'inputs': inputs, 'output': outputs})
     print("final result: ", result)

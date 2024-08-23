@@ -9,6 +9,7 @@ const report = new Report();
 const interpreter = new Interpreter();
 
 const setCode = useProgramCache.getState().setCode;
+const addNewMessage = useProgramCache.getState().addNewMessage;
 
 export function reportDisplay(rlines: string[]) {
   report.display(rlines);
@@ -97,4 +98,9 @@ export async function fetchCode(sharedValue: string) {
       setCode("");
     }
   }
+}
+
+export function sendMessage(message: string) {
+  console.log("cur message: ", JSON.parse(message));
+  addNewMessage(JSON.parse(message));
 }

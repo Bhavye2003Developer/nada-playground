@@ -5,8 +5,10 @@ import {
   interpreterInputsShow,
   interpreterOutputsShow,
   reportDisplay,
+  sendMessage,
 } from "./helper";
 import useGlobals from "../stores/useGlobals";
+import { toast } from "react-toastify";
 
 const initPyodide = async () => {
   const pyodide = await loadPyodide({
@@ -27,6 +29,7 @@ declare global {
       name: string;
       value: number;
     }[];
+    sendMessage: (message: string) => void;
   }
 }
 
@@ -35,6 +38,7 @@ function initWindowProperties() {
   window.interpreterInputsRetrieve = interpreterInputsRetrieve;
   window.interpreterInputsShow = interpreterInputsShow;
   window.interpreterOutputsShow = interpreterOutputsShow;
+  window.sendMessage = sendMessage;
 }
 
 async function init() {
@@ -59,6 +63,10 @@ async function init() {
   initWindowProperties();
 
   useGlobals.getState().initialisePyodide(pyodide_obj);
+
+  useGlobals.getState().initialisationCompleted();
+  console.log("initialisation completed");
+  toast.success("Initialisation completed");
 }
 
 export default init;

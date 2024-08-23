@@ -17,6 +17,7 @@ interface PorgramState {
   code: string;
   inputs: Inputs;
   output: Output[];
+  messages: string[][];
   isInputChanged: boolean;
   reInitialiseInputs: (updatedInputs: Inputs) => void;
   updateValue: (inputName: string, value: any) => void;
@@ -24,12 +25,15 @@ interface PorgramState {
   updateOutput: (updatedOutput: Output[]) => void;
   setCode: (updatedCode: string) => void;
   resetProgram: () => void;
+  addNewMessage: (message: string[]) => void;
+  resetMessages: () => void;
 }
 
 const useProgramCache = create<PorgramState>()((set, get) => ({
   code: examples[0].code,
   inputs: {},
   output: [],
+  messages: [],
   isInputChanged: false,
   reInitialiseInputs: (updatedInputs) =>
     set((state) => ({
@@ -77,7 +81,19 @@ const useProgramCache = create<PorgramState>()((set, get) => ({
       code: "",
       inputs: {},
       output: [],
+      messages: [],
     }));
+  },
+
+  addNewMessage: (message: string[]) => {
+    const messages = [...get().messages];
+    messages.push(message);
+    set((state) => ({ ...state, messages: messages }));
+  },
+
+  resetMessages: () => {
+    console.log("resetting messages");
+    set((state) => ({ ...state, messages: [] }));
   },
 }));
 

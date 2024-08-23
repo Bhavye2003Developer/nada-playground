@@ -5,17 +5,20 @@ import { getBaseLink } from "../utils/helper";
 interface globalTypes {
   pyodide: PyodideInterface | null;
   isRunBtnClicked: boolean;
+  sharedLink: string;
+  isInitialisationCompleted: boolean;
   initialisePyodide: (pyodidie_obj: PyodideInterface) => void;
   runBtnClicked: () => void;
   resetRunBtnClicked: () => void;
-  sharedLink: string;
   updateSharedLink: (updatedLink: string) => void;
+  initialisationCompleted: () => void;
 }
 
 const useGlobals = create<globalTypes>()((set) => ({
   pyodide: null,
   isRunBtnClicked: false,
   sharedLink: getBaseLink(),
+  isInitialisationCompleted: false,
   initialisePyodide: (pyodide_obj) => {
     set((state) => ({ ...state, pyodide: pyodide_obj }));
   },
@@ -28,6 +31,10 @@ const useGlobals = create<globalTypes>()((set) => ({
   },
   updateSharedLink: (updatedLink: string) => {
     set((state) => ({ ...state, sharedLink: updatedLink }));
+  },
+
+  initialisationCompleted: () => {
+    set((state) => ({ ...state, isInitialisationCompleted: true }));
   },
 }));
 
