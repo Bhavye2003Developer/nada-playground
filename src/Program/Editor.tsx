@@ -1,10 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { static_analysis } from "../utils/static_analysis";
 import useGlobals from "../stores/useGlobals";
 import useProgramCache from "../stores/useProgramCache";
 import { buildPermalink } from "../utils/helper";
+import ReactCodeMirror from "@uiw/react-codemirror";
+import { python } from "@codemirror/lang-python";
+import { linter, lintGutter } from "@codemirror/lint";
 
-function Editor() {
+function MyEditor() {
   const [
     isInputChanged,
     toggleInputChanged,
@@ -26,6 +29,13 @@ function Editor() {
     state.resetRunBtnClicked,
   ]);
 
+  const codeChange = (code: string, _: any) => {
+    setCode(code || "");
+    buildPermalink();
+  };
+
+  useEffect(() => {}, []);
+
   useEffect(() => {
     if (pyodide) {
       if (isRunBtnClicked) {
@@ -46,18 +56,58 @@ function Editor() {
     }
   }, [isRunBtnClicked, isInputChanged]);
 
+  useEffect(() => {}, [code]);
+
   return (
     <div className="h-full flex flex-1">
-      <textarea
+      {/* <textarea
         className="resize-none w-full"
         value={code}
         onChange={(e) => {
           setCode(e.target.value);
           buildPermalink();
         }}
+      /> */}
+
+      {/* <Editor
+        language="python"
+        defaultValue={code}
+        options={{
+          minimap: { enabled: false },
+        }}
+        onChange={(code, _) => {
+          setCode(code || "");
+          buildPermalink();
+        }}
+      /> */}
+
+      <ReactCodeMirror
+        lang="python"
+        value={code}
+        className="w-full h-full"
+        extensions={[python(), lintGutter()]}
+        onChange={codeChange}
+        basicSetup={{
+          syntaxHighlighting: true,
+        }}
+        theme={"dark"}
       />
+
+      {/* <CodeEditor
+      className="w-full"
+        value={code}
+        language="python"
+        placeholder="Please enter JS code."
+        onChange={(evn) => setCode(evn.target.value)}
+        padding={15}
+        style={{
+          backgroundColor: "#f5f5f5",
+          fontFamily:
+            "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+        }}
+      /> */}
     </div>
   );
 }
 
-export default Editor;
+export default MyEditor;

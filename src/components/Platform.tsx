@@ -5,13 +5,13 @@ import init from "../utils/init";
 import Header from "./Header";
 import { fetchCode } from "../utils/helper";
 import { useSearchParams } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
 import { Flip, ToastContainer } from "react-toastify";
 import OutputDisplay from "../Program/OutputDisplay";
 import MessageDisplay from "../Program/MessageDisplay";
 import useGlobals from "../stores/useGlobals";
 import LoadingDisplay from "./LoadingDisplay";
 import { ResizableBox, ResizeCallbackData } from "react-resizable";
+import "react-toastify/dist/ReactToastify.css";
 import "react-resizable/css/styles.css";
 
 function Platform() {
@@ -25,7 +25,7 @@ function Platform() {
   );
 
   useEffect(() => {
-    init();
+    // init();
     console.log(searchParams);
     const sharedValue = searchParams.get("shared");
     fetchCode(sharedValue || "");
@@ -46,10 +46,6 @@ function Platform() {
         <Header />
         <div className="flex h-screen mb-3 mx-2">
           <div className="w-full flex flex-col">
-            {/* <Editor />
-            <div className="flex flex-col h-2/6">
-              <MessageDisplay />
-            </div> */}
             <div style={{ height: `calc(100% - ${messageHeight}px)` }}>
               <Editor />
             </div>
