@@ -2,15 +2,15 @@ import { useEffect } from "react";
 import DisplayPanel from "../components/DisplayPanel";
 import useProgramCache from "../stores/useProgramCache";
 
-type messageColorType = {
+type MessageColorType = {
   [messageCls: string]: string;
 };
 
-const messageColors: messageColorType = {
-  information: "text-white-600",
-  success: "text-green-600",
-  warning: "text-yellow-600",
-  error: "text-red-600",
+const messageColors: MessageColorType = {
+  information: "text-blue-500",
+  success: "text-green-500",
+  warning: "text-yellow-500",
+  error: "text-red-500",
 };
 
 function MessageDisplay() {
@@ -22,25 +22,27 @@ function MessageDisplay() {
 
   return (
     <DisplayPanel name="Program Info">
-      <span>
-        {messages.length > 0
-          ? messages.map((message, index) => {
-              const [cls, txt] = message;
-              const color = messageColors[cls.toLowerCase()];
-              console.log("color: ", color, txt);
-              const renderedMsg = (
-                <span key={index}>
-                  {cls != "Information" ? (
-                    <b className={`${color}`}>{cls}: </b>
-                  ) : null}
-                  {txt}
-                  <br />
-                </span>
-              );
-              return renderedMsg;
-            })
-          : null}
-      </span>
+      <div className="p-4 space-y-2">
+        {messages.length > 0 ? (
+          messages.map((message, index) => {
+            const [cls, txt] = message;
+            const colorClass = messageColors[cls.toLowerCase()];
+            return (
+              <div
+                key={index}
+                className={`flex items-start space-x-2 ${colorClass}`}
+              >
+                {cls !== "Information" && (
+                  <span className="font-semibold">{cls}:</span>
+                )}
+                <span>{txt}</span>
+              </div>
+            );
+          })
+        ) : (
+          <p className="text-gray-500">No messages</p>
+        )}
+      </div>
     </DisplayPanel>
   );
 }

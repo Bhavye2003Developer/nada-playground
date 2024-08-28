@@ -21,26 +21,26 @@ function Header() {
   }, [isRunBtnClicked]);
 
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-end items-center space-x-4 p-2 bg-gray-100 border-b border-gray-300">
       <button
         onClick={() => {
           console.log("inside run btn");
           runBtnClicked();
           resetMessages();
         }}
-        className="border border-black p-1 rounded-md hover:bg-green-400 my-4 mr-10"
+        className="px-4 py-2 text-white bg-green-500 rounded-md shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400"
       >
         {isRunBtnClicked ? "Executing..." : "RUN"}
       </button>
       <button
         onClick={resetProgram}
-        className="border border-black p-1 rounded-md hover:bg-green-400 my-4 mr-10"
+        className="px-4 py-2 text-white bg-red-500 rounded-md shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
       >
         RESET
       </button>
       <CodeShareBtn />
       <select
-        className="my-4 mr-10 p-2 rounded-md"
+        className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-400"
         onChange={(e) => {
           const code = e.target.value;
           setCode(code);

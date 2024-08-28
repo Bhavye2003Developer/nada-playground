@@ -8,7 +8,7 @@ import { useSearchParams } from "react-router-dom";
 import { Flip, ToastContainer } from "react-toastify";
 import OutputDisplay from "../Program/OutputDisplay";
 import MessageDisplay from "../Program/MessageDisplay";
-import useGlobals from "../stores/useGlobals";
+import useGlobals, { InitializationState } from "../stores/useGlobals";
 import LoadingDisplay from "./LoadingDisplay";
 import { ResizableBox, ResizeCallbackData } from "react-resizable";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,16 +20,13 @@ function Platform() {
     (window.innerHeight * 33.333333) / 100
   );
 
-  const isInitialisationCompleted = useGlobals(
-    (state) => state.isInitialisationCompleted
-  );
+  const initializationState = useGlobals((state) => state.initalizationState);
 
   useEffect(() => {
     // init();
     console.log(searchParams);
     const sharedValue = searchParams.get("shared");
     fetchCode(sharedValue || "");
-    console.log("height: ", messageHeight);
   }, []);
 
   const onResize = (_: React.SyntheticEvent, { size }: ResizeCallbackData) => {
@@ -40,7 +37,9 @@ function Platform() {
     <div className="flex flex-col w-full h-screen absolute">
       <div
         className={`h-screen flex flex-1 flex-col ${
-          isInitialisationCompleted ? null : "opacity-50 pointer-events-none"
+          initializationState === InitializationState.Completed
+            ? null
+            : "opacity-35 pointer-events-none"
         }`}
       >
         <Header />
@@ -64,12 +63,13 @@ function Platform() {
           </div>
           <div className="w-full flex flex-col">
             <InputDisplay />
-            {/* <div className="mb-3"></div> */}
             <OutputDisplay />
           </div>
         </div>
       </div>
-      {isInitialisationCompleted ? null : <LoadingDisplay />}
+      {initializationState === InitializationState.Completed ? null : (
+        <LoadingDisplay />
+      )}
       <ToastContainer
         position="top-center"
         autoClose={2000}

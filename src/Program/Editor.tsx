@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { static_analysis } from "../utils/static_analysis";
 import useGlobals from "../stores/useGlobals";
 import useProgramCache from "../stores/useProgramCache";
 import { buildPermalink } from "../utils/helper";
 import ReactCodeMirror from "@uiw/react-codemirror";
 import { python } from "@codemirror/lang-python";
-import { linter, lintGutter } from "@codemirror/lint";
+import { lintGutter } from "@codemirror/lint";
 
 function MyEditor() {
   const [
@@ -45,8 +45,6 @@ function MyEditor() {
         reInitialiseInputs(analysis.inputs);
         updateOutput(analysis.output);
 
-        // const porgram_json = compileProgram(pyodide.current, code);
-        // console.log("compiled: ", porgram_json);
         resetRunBtnClicked();
       } else if (isInputChanged) {
         pyodide.runPython(static_analysis(code));
@@ -59,28 +57,7 @@ function MyEditor() {
   useEffect(() => {}, [code]);
 
   return (
-    <div className="h-full flex flex-1">
-      {/* <textarea
-        className="resize-none w-full"
-        value={code}
-        onChange={(e) => {
-          setCode(e.target.value);
-          buildPermalink();
-        }}
-      /> */}
-
-      {/* <Editor
-        language="python"
-        defaultValue={code}
-        options={{
-          minimap: { enabled: false },
-        }}
-        onChange={(code, _) => {
-          setCode(code || "");
-          buildPermalink();
-        }}
-      /> */}
-
+    <div className="h-full w-full">
       <ReactCodeMirror
         lang="python"
         value={code}
@@ -92,20 +69,6 @@ function MyEditor() {
         }}
         theme={"dark"}
       />
-
-      {/* <CodeEditor
-      className="w-full"
-        value={code}
-        language="python"
-        placeholder="Please enter JS code."
-        onChange={(evn) => setCode(evn.target.value)}
-        padding={15}
-        style={{
-          backgroundColor: "#f5f5f5",
-          fontFamily:
-            "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
-        }}
-      /> */}
     </div>
   );
 }

@@ -7,8 +7,10 @@ import {
   reportDisplay,
   sendMessage,
 } from "./helper";
-import useGlobals from "../stores/useGlobals";
+import useGlobals, { InitializationState } from "../stores/useGlobals";
 import { toast } from "react-toastify";
+
+const delay = (ms: any) => new Promise((res) => setTimeout(res, ms));
 
 const initPyodide = async () => {
   const pyodide = await loadPyodide({
@@ -42,11 +44,22 @@ function initWindowProperties() {
 }
 
 async function init() {
+  useGlobals
+    .getState()
+    .updateInitializationState(InitializationState.InitializingPyodide);
+
   const pyodide_obj = await initPyodide();
   console.log("init: ", pyodide_obj);
+  useGlobals
+    .getState()
+    .updateInitializationState(InitializationState.PyodideInitialized);
 
   await pyodide_obj.loadPackage("micropip");
   const micropip = pyodide_obj.pyimport("micropip");
+
+  useGlobals
+    .getState()
+    .updateInitializationState(InitializationState.InstallingPackages);
 
   await micropip.install(
     "https://files.pythonhosted.org/packages/a8/94/7d468bcd22d491db6c0651188278a8790fba5951784e03c618cba55f97bc/parsial-0.1.0-py3-none-any.whl"
@@ -62,10 +75,17 @@ async function init() {
   await micropip.install("nada_dsl-0.1.0-py3-none-any.whl");
   initWindowProperties();
 
+  useGlobals
+    .getState()
+    .updateInitializationState(InitializationState.Initializing);
+
   useGlobals.getState().initialisePyodide(pyodide_obj);
 
-  useGlobals.getState().initialisationCompleted();
-  console.log("initialisation completed");
+  await delay(700);
+
+  useGlobals
+    .getState()
+    .updateInitializationState(InitializationState.Completed);
   toast.success("Initialisation completed");
 }
 

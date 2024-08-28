@@ -1,27 +1,34 @@
 import DisplayPanel from "../components/DisplayPanel";
 import useProgramCache from "../stores/useProgramCache";
 
-export default () => {
+export default function OutputDisplay() {
   const outputElements = useProgramCache((state) => state.output);
+
   return (
     <DisplayPanel name="Output">
-      <>
+      <div className="overflow-x-auto">
         {outputElements.length > 0 ? (
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <table className="min-w-full divide-y divide-gray-300 dark:divide-gray-700 bg-white dark:bg-gray-900 shadow-sm rounded-lg">
+            <thead className="bg-gray-200 dark:bg-gray-800">
               <tr>
-                <th className="px-6 py-1">Output Name</th>
-                <th className="px-6 py-1">Output Value</th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                  Output Name
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                  Output Value
+                </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
               {outputElements.map((outputElement) => (
                 <tr
                   key={outputElement.name}
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                  className="hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  <td className="px-6 py-4">{outputElement.name}</td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
+                    {outputElement.name}
+                  </td>
+                  <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">
                     {outputElement.value || "No output"}
                   </td>
                 </tr>
@@ -29,9 +36,11 @@ export default () => {
             </tbody>
           </table>
         ) : (
-          "No output"
+          <p className="text-gray-600 dark:text-gray-400 p-4">
+            No output
+          </p>
         )}
-      </>
+      </div>
     </DisplayPanel>
   );
-};
+}
