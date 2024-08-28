@@ -1,6 +1,6 @@
 import Editor from "../Program/Editor";
 import InputDisplay from "../Program/InputDisplay";
-import { useEffect, useState } from "react";
+import { SyntheticEvent, useCallback, useEffect, useState } from "react";
 import init from "../utils/init";
 import Header from "./Header";
 import { fetchCode } from "../utils/helper";
@@ -10,28 +10,30 @@ import OutputDisplay from "../Program/OutputDisplay";
 import MessageDisplay from "../Program/MessageDisplay";
 import useGlobals, { InitializationState } from "../stores/useGlobals";
 import LoadingDisplay from "./LoadingDisplay";
-import { ResizableBox, ResizeCallbackData } from "react-resizable";
+import { ResizableBox } from "react-resizable";
 import "react-toastify/dist/ReactToastify.css";
 import "react-resizable/css/styles.css";
 
 function Platform() {
+  const maxMessageDisplayHeight = (window.innerHeight * 25.0) / 100;
   let [searchParams] = useSearchParams();
-  const [messageHeight, setMessageHeight] = useState(
-    (window.innerHeight * 33.333333) / 100
-  );
+  const [messageHeight, setMessageHeight] = useState(maxMessageDisplayHeight);
 
   const initializationState = useGlobals((state) => state.initalizationState);
 
   useEffect(() => {
-    // init();
+    init();
     console.log(searchParams);
     const sharedValue = searchParams.get("shared");
     fetchCode(sharedValue || "");
   }, []);
 
-  const onResize = (_: React.SyntheticEvent, { size }: ResizeCallbackData) => {
-    setMessageHeight(size.height);
-  };
+  const onResize = useCallback(
+    (_: SyntheticEvent, data: { size: { height: number } }) => {
+      setMessageHeight(data.size.height);
+    },
+    []
+  );
 
   return (
     <div className="flex flex-col w-full h-screen absolute">
@@ -44,9 +46,15 @@ function Platform() {
       >
         <Header />
         <div className="flex h-screen mb-3 mx-2">
-          <div className="w-full flex flex-col">
-            <div style={{ height: `calc(100% - ${messageHeight}px)` }}>
-              <Editor />
+          <div className="w-full flex flex-col h-full">
+            <div
+              style={{
+                height: `calc(100% - ${messageHeight}px)`,
+                // backgroundColor: "red",
+              }}
+              className="flex-1"
+            >
+              <Editor messageHeight={messageHeight} />
             </div>
             <ResizableBox
               height={messageHeight}
@@ -54,7 +62,7 @@ function Platform() {
               axis="y"
               resizeHandles={["n"]}
               minConstraints={[Infinity, 100]} // Minimum height constraint
-              maxConstraints={[Infinity, 500]} // Maximum height constraint
+              maxConstraints={[Infinity, maxMessageDisplayHeight]} // Maximum height constraint
               onResize={onResize}
               className="flex flex-col"
             >

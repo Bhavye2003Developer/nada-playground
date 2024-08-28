@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { static_analysis } from "../utils/static_analysis";
 import useGlobals from "../stores/useGlobals";
 import useProgramCache from "../stores/useProgramCache";
@@ -6,8 +6,12 @@ import { buildPermalink } from "../utils/helper";
 import ReactCodeMirror from "@uiw/react-codemirror";
 import { python } from "@codemirror/lang-python";
 import { lintGutter } from "@codemirror/lint";
+import "../MyEditor.css";
 
-function MyEditor() {
+function MyEditor({ messageHeight }: { messageHeight: number }) {
+  const divRef = useRef<HTMLDivElement>(null);
+  const [divHeight, setDivHeight] = useState<number | null>(0);
+
   const [
     isInputChanged,
     toggleInputChanged,
@@ -34,7 +38,13 @@ function MyEditor() {
     buildPermalink();
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (divRef.current) {
+      const height = divRef.current.offsetHeight;
+      console.log("printing height: ", height);
+      setDivHeight(height);
+    }
+  }, [messageHeight]);
 
   useEffect(() => {
     if (pyodide) {
@@ -54,20 +64,19 @@ function MyEditor() {
     }
   }, [isRunBtnClicked, isInputChanged]);
 
-  useEffect(() => {}, [code]);
-
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full flex flex-col" ref={divRef}>
       <ReactCodeMirror
         lang="python"
         value={code}
-        className="w-full h-full"
+        className="flex-1 w-full overflow-auto p-1"
         extensions={[python(), lintGutter()]}
         onChange={codeChange}
         basicSetup={{
           syntaxHighlighting: true,
         }}
         theme={"dark"}
+        style={{ maxHeight: divHeight ? `${divHeight}px` : "auto" }} // Apply the dynamic height here
       />
     </div>
   );

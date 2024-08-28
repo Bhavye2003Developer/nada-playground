@@ -21,7 +21,7 @@ function Header() {
   }, [isRunBtnClicked]);
 
   return (
-    <div className="flex justify-end items-center space-x-4 p-2 bg-gray-100 border-b border-gray-300">
+    <div className="flex justify-end items-center space-x-4 px-4 bg-gray-100 border-b border-gray-300">
       <button
         onClick={() => {
           console.log("inside run btn");

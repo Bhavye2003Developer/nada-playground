@@ -27,7 +27,7 @@ function LoadingDisplay() {
               cx="80"
               cy="80"
               r={radius}
-              strokeWidth="7"
+              strokeWidth="5"
               fill="transparent"
               className="stroke-gray-300"
             />
@@ -35,13 +35,13 @@ function LoadingDisplay() {
               cx="80"
               cy="80"
               r={radius}
-              strokeWidth="7"
+              strokeWidth="5"
               fill="transparent"
-              className="stroke-blue-500"
               strokeDasharray={circumference}
               strokeDashoffset={
                 circumference - (progressPercent / 100) * circumference
               }
+              className="transition-transform duration-500 ease-in-out stroke-blue-500"
             />
           </svg>
           <span className="absolute text-2xl text-gray-800">
