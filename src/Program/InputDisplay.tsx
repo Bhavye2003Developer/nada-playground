@@ -1,6 +1,5 @@
 import useProgramCache from "../stores/useProgramCache";
 import DisplayPanel from "../components/DisplayPanel";
-
 import { useEffect } from "react";
 
 export default function InputDisplay() {
@@ -13,7 +12,7 @@ export default function InputDisplay() {
   return (
     <DisplayPanel name="Input">
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <table className="min-w-full border-collapse bg-white dark:bg-gray-800">
           <thead className="bg-blue-100 dark:bg-blue-900">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
@@ -27,7 +26,7 @@ export default function InputDisplay() {
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
             {Object.keys(inputs).map((inputName) => (
               <InputRow
                 key={inputName}

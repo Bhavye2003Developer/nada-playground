@@ -36,22 +36,23 @@ function Platform() {
   );
 
   return (
-    <div className="flex flex-col w-full h-screen absolute">
+    <div className="flex flex-col w-full h-screen absolute bg-gray-100 dark:bg-gray-800">
       <div
-        className={`h-screen flex flex-1 flex-col ${
+        className={`h-screen flex flex-1 flex-col transition-opacity duration-300 ${
           initializationState === InitializationState.Completed
-            ? null
+            ? "opacity-100"
             : "opacity-35 pointer-events-none"
         }`}
       >
         <Header />
-        <div className="flex h-screen mb-3 mx-2 overflow-hidden">
-          <div className="w-full flex flex-col h-full">
+        <div className="flex h-screen mb-3 mx-2 overflow-hidden space-x-2">
+          {/* Left Side: Editor and Message Display */}
+          <div className="w-2/3 flex flex-col h-full space-y-2">
             <div
               style={{
                 height: `calc(100% - ${messageHeight}px)`,
               }}
-              className="flex-1"
+              className="flex-1 bg-white dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden"
             >
               <Editor messageHeight={messageHeight} />
             </div>
@@ -63,18 +64,24 @@ function Platform() {
               minConstraints={[Infinity, 100]}
               maxConstraints={[Infinity, maxMessageDisplayHeight]}
               onResize={onResize}
-              className="flex flex-col"
+              className="flex flex-col bg-white dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden"
             >
               <MessageDisplay />
             </ResizableBox>
           </div>
-          <div className="w-full flex flex-col overflow-hidden">
-            <InputDisplay />
-            <OutputDisplay />
+          {/* Right Side: Input and Output Display */}
+          <div className="w-1/3 flex flex-col h-full space-y-2">
+            <div className="flex-1 bg-white dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden">
+              <InputDisplay />
+            </div>
+            <div className="flex-1 bg-white dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden">
+              <OutputDisplay />
+            </div>
           </div>
         </div>
       </div>
 
+      {/* Loading and Notifications */}
       {initializationState === InitializationState.Completed ? null : (
         <LoadingDisplay />
       )}

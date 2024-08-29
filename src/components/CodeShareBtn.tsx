@@ -8,7 +8,7 @@ function CodeShareBtn() {
   return (
     <div className="flex">
       <button
-        className="border border-black p-1 rounded-md hover:bg-green-400 my-4 mr-10"
+        className="border border-black p-1 rounded-md hover:bg-green-400 my-4 mr-10 text-md"
         onClick={() => {
           if (isHideBtnActive) {
             setIsSharedBtnClicked(false);
