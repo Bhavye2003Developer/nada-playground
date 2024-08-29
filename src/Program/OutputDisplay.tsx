@@ -1,12 +1,12 @@
-import DisplayPanel from "../components/DisplayPanel";
 import useProgramCache from "../stores/useProgramCache";
+import DisplayPanel from "../components/DisplayPanel";
 
 export default function OutputDisplay() {
   const outputElements = useProgramCache((state) => state.output);
 
   return (
     <DisplayPanel name="Output">
-      <div className="overflow-x-auto">
+      <div className="overflow-y-auto h-full">
         {outputElements.length > 0 ? (
           <table className="min-w-full divide-y divide-gray-300 dark:divide-gray-700 bg-white dark:bg-gray-900 shadow-sm rounded-lg">
             <thead className="bg-gray-200 dark:bg-gray-800">
@@ -36,9 +36,7 @@ export default function OutputDisplay() {
             </tbody>
           </table>
         ) : (
-          <p className="text-gray-600 dark:text-gray-400 p-4">
-            No output
-          </p>
+          <p className="text-gray-600 dark:text-gray-400 p-4">No output</p>
         )}
       </div>
     </DisplayPanel>

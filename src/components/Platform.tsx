@@ -45,12 +45,11 @@ function Platform() {
         }`}
       >
         <Header />
-        <div className="flex h-screen mb-3 mx-2">
+        <div className="flex h-screen mb-3 mx-2 overflow-hidden">
           <div className="w-full flex flex-col h-full">
             <div
               style={{
                 height: `calc(100% - ${messageHeight}px)`,
-                // backgroundColor: "red",
               }}
               className="flex-1"
             >
@@ -61,20 +60,21 @@ function Platform() {
               width={Infinity}
               axis="y"
               resizeHandles={["n"]}
-              minConstraints={[Infinity, 100]} // Minimum height constraint
-              maxConstraints={[Infinity, maxMessageDisplayHeight]} // Maximum height constraint
+              minConstraints={[Infinity, 100]}
+              maxConstraints={[Infinity, maxMessageDisplayHeight]}
               onResize={onResize}
               className="flex flex-col"
             >
               <MessageDisplay />
             </ResizableBox>
           </div>
-          <div className="w-full flex flex-col">
+          <div className="w-full flex flex-col overflow-hidden">
             <InputDisplay />
             <OutputDisplay />
           </div>
         </div>
       </div>
+
       {initializationState === InitializationState.Completed ? null : (
         <LoadingDisplay />
       )}
