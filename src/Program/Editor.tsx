@@ -3,7 +3,7 @@ import { static_analysis } from "../utils/static_analysis";
 import useGlobals from "../stores/useGlobals";
 import useProgramCache from "../stores/useProgramCache";
 import { buildPermalink } from "../utils/helper";
-import ReactCodeMirror from "@uiw/react-codemirror";
+import ReactCodeMirror, { basicSetup } from "@uiw/react-codemirror";
 import { python } from "@codemirror/lang-python";
 import { lintGutter } from "@codemirror/lint";
 import "../MyEditor.css";
@@ -33,7 +33,7 @@ function MyEditor({ messageHeight }: { messageHeight: number }) {
     state.resetRunBtnClicked,
   ]);
 
-  const codeChange = (code: string, _: any) => {
+  const codeChange = (code: string) => {
     setCode(code || "");
     buildPermalink();
   };
@@ -62,21 +62,26 @@ function MyEditor({ messageHeight }: { messageHeight: number }) {
         toggleInputChanged();
       }
     }
-  }, [isRunBtnClicked, isInputChanged]);
+  }, [
+    isRunBtnClicked,
+    isInputChanged,
+    code,
+    pyodide,
+    reInitialiseInputs,
+    updateOutput,
+    resetRunBtnClicked,
+    toggleInputChanged,
+  ]);
 
   return (
     <div className="h-full w-full flex flex-col" ref={divRef}>
       <ReactCodeMirror
-        lang="python"
         value={code}
         className="flex-1 w-full overflow-auto p-1"
-        extensions={[python(), lintGutter()]}
+        extensions={[basicSetup(), python(), lintGutter()]}
         onChange={codeChange}
-        basicSetup={{
-          syntaxHighlighting: true,
-        }}
-        theme={"dark"}
-        style={{ maxHeight: divHeight ? `${divHeight}px` : "auto" }} // Apply the dynamic height here
+        theme="dark"
+        style={{ maxHeight: divHeight ? `${divHeight}px` : "auto" }}
       />
     </div>
   );
