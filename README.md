@@ -2,6 +2,8 @@
 
 [Nada Sandbox](https://nada-playground.vercel.app/) is a browser-based interactive development environment for authoring, sharing, and simulating Nada programs.
 
+https://github.com/user-attachments/assets/38a08822-9b9d-481b-af3b-3d2dd778e8d2
+
 ## Features
 
 - **Interactive Code Editor**: Built with CodeMirror, providing responsive interface.
