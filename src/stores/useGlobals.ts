@@ -25,7 +25,7 @@ const useGlobals = create<globalTypes>()((set) => ({
   pyodide: null,
   isRunBtnClicked: false,
   sharedLink: getBaseLink(),
-  initalizationState: InitializationState.Completed,
+  initalizationState: InitializationState.InitializingPyodide,
   initialisePyodide: (pyodide_obj) => {
     set((state) => ({ ...state, pyodide: pyodide_obj }));
   },

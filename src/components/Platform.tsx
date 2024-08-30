@@ -22,7 +22,7 @@ function Platform() {
   const initializationState = useGlobals((state) => state.initalizationState);
 
   useEffect(() => {
-    // init();
+    init();
     console.log(searchParams);
     const sharedValue = searchParams.get("shared");
     fetchCode(sharedValue || "");
