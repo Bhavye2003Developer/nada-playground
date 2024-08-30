@@ -1,50 +1,57 @@
-# React + TypeScript + Vite
+# Nada Sandbox
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[Nada Sandbox](https://nada-playground.vercel.app/) is a browser-based interactive development environment for authoring, sharing, and simulating Nada programs.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Interactive Code Editor**: Built with CodeMirror, providing responsive interface.
+- **Run Nada Code**: Execute Nada programs directly in the browser using Pyodide.
+- **Program Info**: Get detailed information on whether your program ran successfully or encountered errors.
+- **Dynamic UI**: The interface dynamically adjusts to provide an optimal user experience.
+- **Code Sharing**: Easily share your Nada code with others via unique URLs.
+- **Preloaded Examples**: Start testing Nada programs immediately with preloaded examples.
+- **No Backend Required**: The entire application is implemented as a static webpage without the need for a backend server, ensuring fast load times and easy hosting.
 
-## Expanding the ESLint configuration
+## Dependencies and Implementation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **React**: The entire application is built using React for a modern and responsive UI.
+- **Vite**: Used as the bundler for fast and efficient builds.
+- **Pyodide**: Executes Python code directly in the browser, enabling Nada program simulations.
+- **Zustand**: Lightweight state management library used for managing the application's state.
+- **TypeScript**: Ensures strict type checking for improved code quality and maintainability.
+- **CodeMirror**: Provides the interactive code editor.
 
-- Configure the top-level `parserOptions` property like this:
+## Installation
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+To run Nada playground locally, follow these steps:
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+1. Clone the repository:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+   ```bash
+    https://github.com/Bhavye2003Developer/nada-playground
+    cd nada-playground
+   ```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+2. Install the dependencies:
+
+    ```bash
+    npm install
+    ```
+
+3. Start the development server:
+
+    ```bash
+    npm run dev
+    ```
+
+4. Open your browser and navigate to http://localhost:5173 to start coding and running Nada programs!
+
+## Note
+
+This website is best viewed in dark mode.
+
+## Contributing
+Contributions are welcome! Please open an issue or submit a pull request if you have any ideas, bug reports, or improvements.
+
+## License
+This project is licensed under the MIT License.
